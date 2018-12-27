@@ -4,9 +4,9 @@ import axios from 'axios';
 import { withAlert } from 'react-alert'
 
 class AddContact extends Component {
-  
-  constructor(props){
-    
+
+  constructor(props) {
+
     super(props);
 
     this.state = {
@@ -19,7 +19,7 @@ class AddContact extends Component {
       submitTxt: 'Submit'
 
     };
-    
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateInput = this.updateInput.bind(this);
 
@@ -31,18 +31,18 @@ class AddContact extends Component {
     e.preventDefault();
 
     const contact = {
-        "firstName": this.state.firstName,
-        "lastName": this.state.lastName,
-        "email": this.state.email,
-        "phone": this.state.phone
+      "firstName": this.state.firstName,
+      "lastName": this.state.lastName,
+      "email": this.state.email,
+      "phone": this.state.phone
     };
 
     this.setState({
-        firstNameErrors: '',
-        lastNameErrors: '',
-        emailErrors: '',
-        phoneErrors: '',
-      }
+      firstNameErrors: '',
+      lastNameErrors: '',
+      emailErrors: '',
+      phoneErrors: '',
+    }
     );
 
     var errors = false;
@@ -51,20 +51,20 @@ class AddContact extends Component {
       method: 'post',
       url: 'http://contactsapi.localhost/contact/add',
       data: contact,
-      config: { headers: {'Content-Type': 'multipart/form-data' }}
+      config: { headers: { 'Content-Type': 'multipart/form-data' } }
     })
-    .then((response) => {
+      .then((response) => {
 
-        if(response.data.success){
+        if (response.data.success) {
 
           this.props.alert.show('Contact saved', { type: 'success' });
-          
+
           this.setState({
             redirectToReferrer: true
           });
           this.props.history.push("/");
 
-        }else{
+        } else {
 
           errors = response.data.errors;
           this.props.alert.show('Form errors', { type: 'error' });
@@ -72,71 +72,71 @@ class AddContact extends Component {
           this.setState({
             errors: errors
           });
-          
+
         }
 
-    })
-    .catch(function (response) {
+      })
+      .catch(function (response) {
         //handle error
         //console.log(response);
-    });
+      });
 
   }
 
-  updateInput(event){
+  updateInput(event) {
 
     var name = event.target.name;
     var val = event.target.value;
 
     this.setState(function (state, props) {
-     return {
-      [name]: val
-     }
+      return {
+        [name]: val
+      }
     });
 
   }
 
-    render() {
+  render() {
 
 
-      return(
+    return (
 
-          <div>
-            <h1 className="h2">Add Contact</h1>
+      <div>
+        <h1 className="h2">Add Contact</h1>
 
-            <form onSubmit={ this.handleSubmit }>
-              
-              <div className="form-group">
-                <input type="text" className="form-control" name="firstName" aria-describedby="firstNameHelp" placeholder="First Name" onChange={ this.updateInput } />
-                <small id="firstNameHelp" className="form-text text-muted">{ this.state.errors.firstName }</small>
-              </div>
-              
-              <div className="form-group">
-                <input type="lastName" className="form-control" name="lastName" id="lastName" aria-describedby="lastNameHelp" placeholder="Last Name" onChange={this.updateInput}/>
-                <small id="lastNameHelp" className="form-text text-muted">{ this.state.errors.lastName }</small>
-              </div>
+        <form onSubmit={this.handleSubmit}>
 
-              <div className="form-group">
-                <input type="text" className="form-control" id="phone" name="phone" aria-describedby="phoneHelp" placeholder="Phone number" onChange={this.updateInput}/>
-                <small id="phoneHelp" className="form-text text-muted">{ this.state.errors.phone }</small>
-              </div>
+          <div className="form-group">
+            <input type="text" className="form-control" name="firstName" aria-describedby="firstNameHelp" placeholder="First Name" onChange={this.updateInput} />
+            <small id="firstNameHelp" className="form-text text-muted">{this.state.errors.firstName}</small>
+          </div>
 
-              <div className="form-group">
-                <input type="text" className="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Email address" onChange={this.updateInput}/>
-                <small id="emailHelp" className="form-text text-muted">{ this.state.errors.email }</small>
-              </div>
+          <div className="form-group">
+            <input type="lastName" className="form-control" name="lastName" id="lastName" aria-describedby="lastNameHelp" placeholder="Last Name" onChange={this.updateInput} />
+            <small id="lastNameHelp" className="form-text text-muted">{this.state.errors.lastName}</small>
+          </div>
 
-              <button type="submit" className="btn btn-primary">{ this.state.submitTxt }</button>
-            </form>
+          <div className="form-group">
+            <input type="text" className="form-control" id="phone" name="phone" aria-describedby="phoneHelp" placeholder="Phone number" onChange={this.updateInput} />
+            <small id="phoneHelp" className="form-text text-muted">{this.state.errors.phone}</small>
+          </div>
 
+          <div className="form-group">
+            <input type="text" className="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Email address" onChange={this.updateInput} />
+            <small id="emailHelp" className="form-text text-muted">{this.state.errors.email}</small>
+          </div>
 
-
-        </div>
-      )
-    }
+          <button type="submit" className="btn btn-primary">{this.state.submitTxt}</button>
+        </form>
 
 
+
+      </div>
+    )
   }
+
+
+}
 
 
 export default withAlert(AddContact);

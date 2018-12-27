@@ -4,50 +4,47 @@ import AddContact from './addcontact';
 import ContactsTable from './contactstable';
 
 class Sidebar extends Component {
-	
-	constructor(props){
-		
+
+	constructor(props) {
+
 		super(props);
-	
+
 	}
 
-    render() {
+	render() {
 
-      return(
-        <div>
+		return (
+			<div>
 
-							<nav className="col-md-2 d-none d-md-block bg-light sidebar">
-					          <div className="sidebar-sticky">
-					            <ul className="nav flex-column">
-					              
-					              <li className="nav-item">
-					                <Link to={'/'} className="nav-link active">
-					                
-					                  <span data-feather="home"></span>
-					                  Contacts <span className="sr-only">(current)</span>
-					                
-					                </Link>
+				<nav className="col-md-2 d-none d-md-block bg-light sidebar">
+					<div className="sidebar-sticky">
+						<ul className="nav flex-column">
 
-					                <Link to={'/add'} className="nav-link active">                                              		
+							<li className="nav-item">
+								<Link to={'/'} className="nav-link active">
 
-					                  <span data-feather="home"></span>
-					                  Add Contact <span className="sr-only">(current)</span>
+									<span data-feather="home"></span>
+									Contacts <span className="sr-only">(current)</span>
 
-					                </Link>
-					                
-					              </li>
+								</Link>
 
-					            </ul>
+								<Link to={'/add'} className="nav-link active">
 
-					          </div>
-					        </nav>
-        </div>
-      )
-    }
+									<span data-feather="home"></span>
+									Add Contact <span className="sr-only">(current)</span>
 
+								</Link>
 
-  }
+							</li>
 
+						</ul>
+
+					</div>
+				</nav>
+			</div>
+		)
+	}
+
+}
 
 export default Sidebar;
-
