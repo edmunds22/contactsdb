@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { withAlert } from 'react-alert';
+import { withRouter } from 'react-router';
+import LocaleProvider, { LocaleContext } from '../contexts/context';
 
 class Navbar extends Component {
 
@@ -7,6 +10,7 @@ class Navbar extends Component {
 
 		super(props);
 		this.updateSearchInput = this.updateSearchInput.bind(this);
+		this.signout = this.signout.bind(this);
 
 	}
 
@@ -16,6 +20,11 @@ class Navbar extends Component {
 
 		this.props.searchContacts(val);
 
+	}
+
+	signout() {
+		this.props.authenticate(false);
+		this.props.alert.show('Logout ok', { type: 'success' });
 	}
 
 	render() {
@@ -32,7 +41,22 @@ class Navbar extends Component {
 
 					<ul className="navbar-nav px-3">
 						<li className="nav-item text-nowrap">
-							<a className="nav-link" href="#">Sign out</a>
+
+							<LocaleContext.Consumer>
+								{contextvalues => (contextvalues.authenticated == true ?
+									<a className="nav-link" href="#" onClick={this.signout}>Logout</a>
+									:
+									<a className="nav-link" href="#" onClick={
+
+										(event) => {
+											//multiple function calls in here.
+										}
+
+
+									}>Login</a>
+								)}
+							</LocaleContext.Consumer>
+
 						</li>
 					</ul>
 				</nav>
@@ -44,4 +68,4 @@ class Navbar extends Component {
 }
 
 
-export default Navbar;
+export default withAlert(Navbar);

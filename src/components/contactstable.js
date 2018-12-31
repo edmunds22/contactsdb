@@ -3,6 +3,7 @@ import Sidebar from './sidebar';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
+
 class ContactsTable extends Component {
 
   constructor(props) {
@@ -16,6 +17,7 @@ class ContactsTable extends Component {
 
     this.setTable = this.setTable.bind(this);
     this.props.showSearchInput(true);
+
 
   }
 
@@ -48,9 +50,6 @@ class ContactsTable extends Component {
   }
 
   componentWillReceiveProps(props, state) {
-
-    //console.log(this.state);
-    //console.log(props);
 
     if (this.state.searchValue !== props.searchValue) {
 

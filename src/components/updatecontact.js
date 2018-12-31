@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Sidebar from './sidebar';
 import axios from 'axios';
-import { withAlert } from 'react-alert'
+import { withAlert } from 'react-alert';
+import { withRouter } from 'react-router';
 
 class UpdateContact extends Component {
 
@@ -17,8 +18,8 @@ class UpdateContact extends Component {
       email: '',
       phone: '',
       redirectToReferrer: false,
-      submitTxt: 'Submit'
-
+      submitTxt: 'Submit',
+      history: this.props.history
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -95,10 +96,7 @@ class UpdateContact extends Component {
 
           this.props.alert.show('Contact saved', { type: 'success' });
 
-          this.setState({
-            redirectToReferrer: true
-          });
-          this.props.history.push("/");
+          this.props.history.push('/');
 
         } else {
 
@@ -175,5 +173,5 @@ class UpdateContact extends Component {
 }
 
 
-export default withAlert(UpdateContact);
+export default withRouter(withAlert(UpdateContact));
 
