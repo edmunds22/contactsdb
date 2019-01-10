@@ -60,7 +60,7 @@ class Index extends Component {
 	}
 
 	render() {
-
+		 
 
 		return (
 
@@ -73,7 +73,13 @@ class Index extends Component {
 								<div className="container-fluid">
 									<div className="row">
 
-										<Sidebar />
+												{this.state.user.authenticated ? (
+
+													<Sidebar />
+
+												) : (
+													<div> </div>
+												)}
 
 										<div className="col-md-12">
 
@@ -94,7 +100,7 @@ class Index extends Component {
 
 														<Login showSearchInput={this.showSearchInput} authenticate={this.authenticate} searchValue='' />
 
-													)}
+												)}
 
 											</main>
 

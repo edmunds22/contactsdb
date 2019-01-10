@@ -1,52 +1,35 @@
 import React, { Component } from 'react';
-import Sidebar from './sidebar';
 import axios from 'axios';
-import { withAlert } from 'react-alert'
+import { withAlert } from 'react-alert';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 class AddContact extends Component {
-
   constructor(props) {
-
     super(props);
 
     this.state = {
-      firstName: '',
+      contact: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+      },
       errors: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      submitTxt: 'Submit'
+      submitTxt: 'Submit',
 
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateInput = this.updateInput.bind(this);
-
-    this.props.showSearchInput(false);
-
+    const { showSearchInput } = this.props;
+    showSearchInput(false);
   }
 
   handleSubmit(e) {
-
     e.preventDefault();
 
-    const contact = {
-      "firstName": this.state.firstName,
-      "lastName": this.state.lastName,
-      "email": this.state.email,
-      "phone": this.state.phone
-    };
-
-    this.setState({
-      firstNameErrors: '',
-      lastNameErrors: '',
-      emailErrors: '',
-      phoneErrors: '',
-    }
-    );
-
-    var errors = false;
+    const { contact } = this.state;
 
     axios({
       method: 'post',
@@ -55,48 +38,30 @@ class AddContact extends Component {
       config: { headers: { 'Content-Type': 'multipart/form-data' } }
     })
       .then((response) => {
+        const { history, alert } = this.props;
 
         if (response.data.success) {
-
-          this.props.alert.show('Contact saved', { type: 'success' });
-
-          this.props.history.push("/");
-
+          history.push('/');
+          alert.show('Contact saved', { type: 'success' });
         } else {
-
-          errors = response.data.errors;
-          this.props.alert.show('Form errors', { type: 'error' });
+          const { errors } = response.data;
+          alert.show('Form errors', { type: 'error' });
 
           this.setState({
-            errors: errors
+            errors,
           });
-
         }
-
-      })
-      .catch(function (response) {
-        //handle error
-        //console.log(response);
       });
-
   }
 
   updateInput(event) {
+    const { name } = event.target;
+    const { value } = event.target;
 
-    var name = event.target.name;
-    var val = event.target.value;
-
-    this.setState(function (state, props) {
-      return {
-        [name]: val
-      }
-    });
-
+    this.setState(Object.assign(this.state.contact, { [name]: value }));
   }
 
   render() {
-
-
     return (
 
       <div>
@@ -126,15 +91,15 @@ class AddContact extends Component {
 
           <button type="submit" className="btn btn-primary">{this.state.submitTxt}</button>
         </form>
-
-
-
       </div>
-    )
+    );
   }
-
-
 }
 
-export default withRouter(withAlert(AddContact));
+AddContact.propTypes = {
+  showSearchInput: PropTypes.func.isRequired,
+  alert: PropTypes.func.isRequired,
+  history: PropTypes.func.isRequired,
+};
 
+export default withRouter(withAlert(AddContact));

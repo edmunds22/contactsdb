@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import Sidebar from './sidebar';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
 
 class ContactsTable extends Component {
 
@@ -12,7 +10,7 @@ class ContactsTable extends Component {
 
     this.state = {
       contacts: [],
-      searchValue: this.props.searchValue
+      searchValue: this.props.searchValue,
     }
 
     this.setTable = this.setTable.bind(this);
@@ -44,18 +42,13 @@ class ContactsTable extends Component {
   }
 
   componentDidMount() {
-
     this.setTable();
-
   }
 
-  componentWillReceiveProps(props, state) {
-
+  componentWillReceiveProps(props) {
     if (this.state.searchValue !== props.searchValue) {
-
       this.setTable(null, props.searchValue);
     }
-
   }
 
   render() {
@@ -67,12 +60,13 @@ class ContactsTable extends Component {
 
         <div className="btn-toolbar mb-2 mb-md-0" style={{ float: 'right' }}>
           <div className="btn-group mr-2">
-            <button className="btn btn-sm btn-outline-secondary" onClick={this.setTable}>Refresh List</button>
-            <button className="btn btn-sm btn-outline-secondary">Export</button>
+            <button type="button" className="btn btn-sm btn-outline-secondary" onClick={this.setTable}>Refresh List</button>
+            <button type="button" className="btn btn-sm btn-outline-secondary">Export</button>
           </div>
         </div>
 
-        <h2 className="h5">All Contacts</h2>
+        <h2 className="h5">All Contact</h2>
+
         <div className="table-responsive">
           <table className="table table-striped table-sm">
             <thead>
@@ -89,26 +83,29 @@ class ContactsTable extends Component {
               {this.state.contacts ? (
 
                 this.state.contacts.map((contact, i) => {
-                  return (<tr key={i}>
-                    <td>{contact.id}</td>
-                    <td>{contact.firstName}</td>
-                    <td>{contact.lastName}</td>
-                    <td>{contact.email}</td>
-                    <td>{contact.phone}</td>
-                    <td>
+                  return (
+                    <tr key={i}>
+                      <td>{contact.id}</td>
+                      <td>{contact.firstName}</td>
+                      <td>{contact.lastName}</td>
+                      <td>{contact.email}</td>
+                      <td>{contact.phone}</td>
+                      <td>
 
-                      <Link to={`/update/${contact.id}`} className="nav-link active">
+                        <Link to={`/update/${contact.id}`} className="nav-link active">
 
-                        <button className="btn btn-secondary btn-sm">Edit</button>
+                          <button type="button" className="btn btn-secondary btn-sm">Edit</button>
 
-                      </Link>
+                        </Link>
 
-                    </td>
-                  </tr>);
+                      </td>
+                    </tr>
+                  );
                 })
-
               ) : (
-                  <tr><td colspan="5">loading</td></tr>
+                  <tr>
+                    <td colSpan="5">loading</td>
+                  </tr>
                 )}
 
             </tbody>
@@ -116,9 +113,8 @@ class ContactsTable extends Component {
         </div>
       </div>
 
-    )
+    );
   }
-
 }
 
 export default ContactsTable;

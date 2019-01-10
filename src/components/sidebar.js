@@ -35,14 +35,6 @@ class Sidebar extends Component {
 
 								</Link>
 
-								<Link to={'/login'} className="nav-link active">
-
-									<span data-feather="home"></span>
-									Login <span className="sr-only">(current)</span>
-
-								</Link>
-
-
 							</li>
 
 						</ul>
