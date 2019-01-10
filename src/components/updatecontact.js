@@ -19,6 +19,7 @@ class UpdateContact extends Component {
       },
       errors: {},
       submitTxt: 'Submit',
+      token: this.props.token
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,7 +39,7 @@ class UpdateContact extends Component {
   setContact() {
     axios({
       method: 'get',
-      url: `http://contactsapi.localhost/contact/get/${this.state.id}`,
+      url: `http://contactsapi.localhost/contact/get/${this.state.id}?token=${this.props.token}`,
     })
       .then((response) => {
         this.setState((prevState, props) => {
@@ -66,7 +67,7 @@ class UpdateContact extends Component {
 
     axios({
       method: 'post',
-      url: `http://contactsapi.localhost/contact/update/${id}`,
+      url: `http://contactsapi.localhost/contact/update/${id}?token=${this.props.token}`,
       data: contact,
       config: { headers: { 'Content-Type': 'multipart/form-data' } },
     })

@@ -17,7 +17,7 @@ class AddContact extends Component {
       },
       errors: '',
       submitTxt: 'Submit',
-
+      token: this.props.token
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,11 +33,12 @@ class AddContact extends Component {
 
     axios({
       method: 'post',
-      url: 'http://contactsapi.localhost/contact/add',
+      url: 'http://contactsapi.localhost/contact/add?token=' + this.state.token,
       data: contact,
-      config: { headers: { 'Content-Type': 'multipart/form-data' } }
+      config: { headers: { 'Content-Type': 'multipart/form-data' } },
     })
       .then((response) => {
+
         const { history, alert } = this.props;
 
         if (response.data.success) {

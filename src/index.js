@@ -33,6 +33,7 @@ class Index extends Component {
       user: {
         authenticated: this.checkAuthed(),
         username: 'tester',
+        token: null,
       },
     };
   }
@@ -45,8 +46,11 @@ class Index extends Component {
     this.setState({ searchValue: value });
   }
 
-  authenticate(status) {
-    this.setState({ user: { authenticated: (status === true), username: 'testt' } });
+  authenticate(status, token) {
+    localStorage.setItem('token', JSON.stringify(token));
+    this.setState({
+      user: { authenticated: (status === true), username: 'testt', token },
+    });
   }
 
   checkAuthed() {
@@ -89,9 +93,9 @@ class Index extends Component {
 
                           <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <Switch>
-                              <Route path="/" exact={true} render={() => <ContactsTable showSearchInput={this.showSearchInput} searchValue={this.state.searchValue} />} />
-                              <Route path="/add" exact={true} render={() => <AddContact showSearchInput={this.showSearchInput} />} />
-                              <Route path="/update/:contactid" exact={true} render={({ match }) => <UpdateContact contactid={match.params.contactid} showSearchInput={this.showSearchInput} />} />
+                              <Route path="/" exact={true} render={() => <ContactsTable showSearchInput={this.showSearchInput} searchValue={this.state.searchValue} token={this.state.user.token} />} />
+                              <Route path="/add" exact={true} render={() => <AddContact showSearchInput={this.showSearchInput} token={this.state.user.token} />} />
+                              <Route path="/update/:contactid" exact={true} render={({ match }) => <UpdateContact contactid={match.params.contactid} showSearchInput={this.showSearchInput} token={this.state.user.token} />} />
                             </Switch>
                           </div>
 

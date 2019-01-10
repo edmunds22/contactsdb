@@ -11,6 +11,7 @@ class ContactsTable extends Component {
     this.state = {
       contacts: [],
       searchValue: this.props.searchValue,
+      token: this.props.token,
     }
 
     this.setTable = this.setTable.bind(this);
@@ -22,10 +23,11 @@ class ContactsTable extends Component {
   setTable(event, searchValue) {
 
     var contacts = [];
+    let token = this.state.token;
 
     axios({
       method: 'get',
-      url: 'http://contactsapi.localhost/contact/getall?search=' + (searchValue != '' && searchValue ? searchValue : '')
+      url: 'http://contactsapi.localhost/contact/getall?token=' + token + '&search=' + (searchValue != '' && searchValue ? searchValue : '')
     })
       .then((response) => {
 
