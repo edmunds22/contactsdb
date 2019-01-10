@@ -1,44 +1,41 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { withAlert } from 'react-alert'
+import { withAlert } from 'react-alert';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import LocaleProvider, { LocaleContext } from '../contexts/context';
 
 class Login extends Component {
-
   constructor(props) {
-
     super(props);
 
     this.state = {
       errors: {
         userName: '',
-        password: ''
-      }
-    }
+        password: '',
+      },
+    };
 
-    this.props.showSearchInput(false);
+    const { showSearchInput } = this.props;
+    showSearchInput(false);
     this.login = this.login.bind(this);
-
   }
 
 
   login(e) {
     e.preventDefault();
-    this.props.authenticate(true);
-    this.props.alert.show('Login ok', { type: 'success' });
+    const { authenticate, alert } = this.props;
+    authenticate(true);
+    alert.show('Login ok', { type: 'success' });
   }
 
   render() {
-
     return (
 
       <div>
         <h1 className="h2">Login</h1>
 
         <LocaleContext.Consumer>
-          {context => <div></div>}
+          {() => <div>.</div>}
         </LocaleContext.Consumer>
 
         <form method="post" onSubmit={this.login}>
@@ -55,13 +52,15 @@ class Login extends Component {
 
           <button type="submit" className="btn btn-primary">Submit</button>
         </form>
-
-
-
       </div>
-    )
+    );
   }
-
 }
+
+Login.propTypes = {
+  showSearchInput: PropTypes.func.isRequired,
+  alert: PropTypes.func.isRequired,
+  authenticate: PropTypes.shape.isRequired,
+};
 
 export default withRouter(withAlert(Login));

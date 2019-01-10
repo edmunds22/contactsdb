@@ -1,50 +1,34 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import AddContact from './addcontact';
-import ContactsTable from './contactstable';
+import React from 'react';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
-class Sidebar extends Component {
+const Sidebar = () => {
+  return (
+    <div>
+      <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+        <div className="sidebar-sticky">
+          <ul className="nav flex-column">
 
-	constructor(props) {
+            <li className="nav-item">
+              <Link to="/" className="nav-link active">
 
-		super(props);
+                <a href="#">Contacts</a>
 
-	}
+              </Link>
 
-	render() {
+              <Link to="/add" className="nav-link active">
 
-		return (
-			<div>
+                <a href="#">Add Contact</a>
 
-				<nav className="col-md-2 d-none d-md-block bg-light sidebar">
-					<div className="sidebar-sticky">
-						<ul className="nav flex-column">
+              </Link>
 
-							<li className="nav-item">
-								<Link to={'/'} className="nav-link active">
+            </li>
 
-									<span data-feather="home"></span>
-									Contacts <span className="sr-only">(current)</span>
+          </ul>
 
-								</Link>
-
-								<Link to={'/add'} className="nav-link active">
-
-									<span data-feather="home"></span>
-									Add Contact <span className="sr-only">(current)</span>
-
-								</Link>
-
-							</li>
-
-						</ul>
-
-					</div>
-				</nav>
-			</div>
-		)
-	}
-
-}
+        </div>
+      </nav>
+    </div>
+  );
+};
 
 export default Sidebar;
