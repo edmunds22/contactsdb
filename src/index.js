@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider as AlertProvider } from 'react-alert';
+import { withRouter } from 'react-router';
 import AlertTemplate from 'react-alert-template-basic';
 import Navbar from './components/navbar';
 import Sidebar from './components/sidebar';
@@ -9,6 +10,7 @@ import AddContact from './components/addcontact';
 import UpdateContact from './components/updatecontact';
 import ContactsTable from './components/contactstable';
 import Login from './components/login';
+import Register from './components/register';
 import LocaleProvider from './contexts/context';
 
 const options = {
@@ -25,17 +27,17 @@ class Index extends Component {
     this.showSearchInput = this.showSearchInput.bind(this);
     this.searchContacts = this.searchContacts.bind(this);
     this.authenticate = this.authenticate.bind(this);
-    this.authed = this.checkAuthed.bind(this);
 
     this.state = {
       showSearch: true,
       searchValue: false,
       user: {
-        authenticated: this.checkAuthed(),
+        authenticated: false,
         username: 'tester',
         token: null,
       },
     };
+
   }
 
   showSearchInput(showstatus) {
@@ -47,16 +49,17 @@ class Index extends Component {
   }
 
   authenticate(status, token) {
-    localStorage.setItem('token', JSON.stringify(token));
+    const storagetoken = localStorage.getItem('token');
+
+    if (token !== storagetoken) {
+      localStorage.setItem('token', JSON.stringify(token));
+    }
+
     this.setState({
       user: { authenticated: (status === true), username: 'testt', token },
     });
   }
 
-  checkAuthed() {
-    this.setState();
-    return false;
-  }
 
   render() {
     return (
@@ -88,29 +91,29 @@ class Index extends Component {
 
 
                       <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
+                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
-                        {this.state.user.authenticated ? (
+                          {this.state.user.authenticated ? (
 
-                          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
                             <Switch>
                               <Route path="/" exact={true} render={() => <ContactsTable showSearchInput={this.showSearchInput} searchValue={this.state.searchValue} token={this.state.user.token} />} />
                               <Route path="/add" exact={true} render={() => <AddContact showSearchInput={this.showSearchInput} token={this.state.user.token} />} />
                               <Route path="/update/:contactid" exact={true} render={({ match }) => <UpdateContact contactid={match.params.contactid} showSearchInput={this.showSearchInput} token={this.state.user.token} />} />
                             </Switch>
-                          </div>
 
-                        )
-                          :
-                          (
-                            <Login
-                              showSearchInput={this.showSearchInput}
-                              authenticate={this.authenticate}
-                              searchValue={null}
-                            />
 
                           )
-                        }
+                            :
+                            (
+                              <Switch>
+                                <Route path="/create-account" exact={true} render={() => <Register showSearchInput={this.showSearchInput} authenticate={this.authenticate} searchValue={null} />} />
+                                <Route path="/" exact={true} render={() => <Login showSearchInput={this.showSearchInput} authenticate={this.authenticate} searchValue={null} />} />
+                              </Switch>
 
+                            )
+                          }
+                        </div>
                       </main>
 
                     </div>

@@ -6,7 +6,7 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import LocaleProvider, { LocaleContext } from '../contexts/context';
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props);
 
@@ -16,35 +16,19 @@ class Login extends Component {
         password: '',
       },
       errors: {
-        username: '',
+        username: [],
         password: '',
       },
     };
 
     const { showSearchInput } = this.props;
     showSearchInput(false);
-    this.login = this.login.bind(this);
+    this.goregister = this.goregister.bind(this);
     this.updateInput = this.updateInput.bind(this);
 
-    this.checkAuthed = this.checkAuthed.bind(this);
-
-    this.checkAuthed();
   }
 
-
-  checkAuthed() {
-    const token = localStorage.getItem('token');
-    const { authenticate, alert } = this.props;
-    //const { history } = this.props;
-
-    if (token) {
-      authenticate(true, token);
-      alert.show('Auto login', { type: 'success' });
-      return true;
-    }
-  }
-
-  login(e) {
+  goregister(e) {
     e.preventDefault();
     const { history, authenticate, alert } = this.props;
 
@@ -52,19 +36,18 @@ class Login extends Component {
 
     axios({
       method: 'post',
-      url: 'http://contactsapi.localhost/login',
+      url: 'http://contactsapi.localhost/register',
       data: details,
       config: { headers: { 'Content-Type': 'multipart/form-data' } },
     })
       .then((response) => {
         if (response.data.success) {
           authenticate(true, response.data.token);
-          alert.show('Login ok', { type: 'success' });
+          alert.show('Registration ok', { type: 'success' });
           history.push('/');
         } else {
           const { errors } = response.data;
           alert.show('Form errors', { type: 'error' });
-
           this.setState({
             errors,
           });
@@ -83,13 +66,13 @@ class Login extends Component {
     return (
 
       <div>
-        <h1 className="h2">Login</h1>
+        <h1 className="h2">Register</h1>
 
         <LocaleContext.Consumer>
           {() => <div>&nbsp;</div>}
         </LocaleContext.Consumer>
 
-        <form method="post" onSubmit={this.login}>
+        <form method="post" onSubmit={this.goregister}>
 
           <div className="form-group">
             <input type="text" className="form-control" name="username" aria-describedby="userNameHelp" placeholder="Username" onChange={this.updateInput} />
@@ -107,13 +90,11 @@ class Login extends Component {
 
           <br />
 
+          <Link to={'/'} className="nav-link">
 
-          <Link to={`/create-account`} className="nav-link">
-
-            <a className="">Create account</a>
+            <a className="">Login</a>
 
           </Link>
-
 
         </form>
       </div>
@@ -121,11 +102,10 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+Register.propTypes = {
   showSearchInput: PropTypes.func.isRequired,
   alert: PropTypes.func.isRequired,
   authenticate: PropTypes.shape.isRequired,
-  history: PropTypes.shape.isRequired,
 };
 
-export default withRouter(withAlert(Login));
+export default withRouter(withAlert(Register));
