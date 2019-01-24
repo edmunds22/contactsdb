@@ -30,7 +30,7 @@ class Navbar extends Component {
 
           {
             this.props.showSearch === true
-              ? <input className="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" onChange={this.updateSearchInput} /> : ''
+              ? <input className="form-control form-control-dark search-input" type="text" placeholder="Search" aria-label="Search" onChange={this.updateSearchInput} /> : ''
           }
 
           <ul className="navbar-nav px-3">

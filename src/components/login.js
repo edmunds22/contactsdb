@@ -35,9 +35,8 @@ class Login extends Component {
   checkAuthed() {
     const token = localStorage.getItem('token');
     const { authenticate, alert } = this.props;
-    //const { history } = this.props;
 
-    if (token) {
+    if (token && typeof token !== 'undefined') {
       authenticate(true, token);
       alert.show('Auto login', { type: 'success' });
       return true;
@@ -52,7 +51,7 @@ class Login extends Component {
 
     axios({
       method: 'post',
-      url: 'http://contactsapi.localhost/login',
+      url: 'http://contactsapi.wpedmunds.uk/login',
       data: details,
       config: { headers: { 'Content-Type': 'multipart/form-data' } },
     })

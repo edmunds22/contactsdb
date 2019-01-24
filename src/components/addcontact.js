@@ -15,7 +15,12 @@ class AddContact extends Component {
         email: '',
         phone: '',
       },
-      errors: '',
+      errors: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+      },
       submitTxt: 'Submit',
       token: this.props.token
     };
@@ -33,7 +38,7 @@ class AddContact extends Component {
 
     axios({
       method: 'post',
-      url: 'http://contactsapi.localhost/contact/add?token=' + this.state.token,
+      url: 'http://contactsapi.wpedmunds.uk/contact/add?token=' + this.state.token,
       data: contact,
       config: { headers: { 'Content-Type': 'multipart/form-data' } },
     })
@@ -45,12 +50,12 @@ class AddContact extends Component {
           history.push('/');
           alert.show('Contact saved', { type: 'success' });
         } else {
-          const { errors } = response.data;
+          //          const { errors } = response.data;
           alert.show('Form errors', { type: 'error' });
 
-          this.setState({
-            errors,
-          });
+          //this.setState({
+          //  errors,
+          //});
         }
       });
   }

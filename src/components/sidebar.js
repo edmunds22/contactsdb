@@ -3,30 +3,27 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <div>
-      <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-        <div className="sidebar-sticky">
-          <ul className="nav flex-column">
 
-            <li className="nav-item">
-              <Link to="/" className="nav-link active">
+    <div className="sidebar-sticky">
+      <ul className="nav flex-column">
 
-                <a href="#">Contacts</a>
+        <li className="nav-item">
+          <Link to="/" className="nav-link active">
 
-              </Link>
+            <a href="#">Contacts</a>
 
-              <Link to="/add" className="nav-link active">
+          </Link>
 
-                <a href="#">Add Contact</a>
+          <Link to="/add" className="nav-link active">
 
-              </Link>
+            <a href="#">Add Contact</a>
 
-            </li>
+          </Link>
 
-          </ul>
+        </li>
 
-        </div>
-      </nav>
+      </ul>
+
     </div>
   );
 };

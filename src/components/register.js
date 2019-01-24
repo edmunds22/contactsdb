@@ -36,7 +36,7 @@ class Register extends Component {
 
     axios({
       method: 'post',
-      url: 'http://contactsapi.localhost/register',
+      url: 'http://contactsapi.wpedmunds.uk/register',
       data: details,
       config: { headers: { 'Content-Type': 'multipart/form-data' } },
     })

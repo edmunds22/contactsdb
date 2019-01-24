@@ -55,11 +55,18 @@ class Index extends Component {
       localStorage.setItem('token', JSON.stringify(token));
     }
 
+    if (status == false) {
+      localStorage.removeItem('token');
+      this.setState({
+        user: { authenticated: (status === true), username: 'testt', 'token': false },
+      });
+      return true;
+    }
+
     this.setState({
       user: { authenticated: (status === true), username: 'testt', token },
     });
   }
-
 
   render() {
     return (
@@ -76,47 +83,46 @@ class Index extends Component {
                 <div className="container-fluid">
                   <div className="row">
 
-                    {this.state.user.authenticated ? (
+                    <nav className="col-sm-2 col-md-2 d-md-block bg-light sidebar">
 
-                      <Sidebar />
+                      {this.state.user.authenticated ? (
 
-                    )
-                      :
-                      (
-                        <div />
+                        <Sidebar />
+
                       )
-                    }
+                        :
+                        (
+                          <div />
+                        )
+                      }
 
-                    <div className="col-md-12">
+                    </nav>
+
+                    <main role="main" className="col-sm-10 col-md-9 ml-sm-auto col-lg-10 px-4">
+                      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+                        {this.state.user.authenticated ? (
+
+                          <Switch>
+                            <Route path="/" exact={true} render={() => <ContactsTable showSearchInput={this.showSearchInput} searchValue={this.state.searchValue} token={this.state.user.token} />} />
+                            <Route path="/add" exact={true} render={() => <AddContact showSearchInput={this.showSearchInput} token={this.state.user.token} />} />
+                            <Route path="/update/:contactid" exact={true} render={({ match }) => <UpdateContact contactid={match.params.contactid} showSearchInput={this.showSearchInput} token={this.state.user.token} />} />
+                          </Switch>
 
 
-                      <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-
-                          {this.state.user.authenticated ? (
-
-
+                        )
+                          :
+                          (
                             <Switch>
-                              <Route path="/" exact={true} render={() => <ContactsTable showSearchInput={this.showSearchInput} searchValue={this.state.searchValue} token={this.state.user.token} />} />
-                              <Route path="/add" exact={true} render={() => <AddContact showSearchInput={this.showSearchInput} token={this.state.user.token} />} />
-                              <Route path="/update/:contactid" exact={true} render={({ match }) => <UpdateContact contactid={match.params.contactid} showSearchInput={this.showSearchInput} token={this.state.user.token} />} />
+                              <Route path="/create-account" exact={true} render={() => <Register showSearchInput={this.showSearchInput} authenticate={this.authenticate} searchValue={null} />} />
+                              <Route path="/" exact={true} render={() => <Login showSearchInput={this.showSearchInput} authenticate={this.authenticate} searchValue={null} />} />
                             </Switch>
 
-
                           )
-                            :
-                            (
-                              <Switch>
-                                <Route path="/create-account" exact={true} render={() => <Register showSearchInput={this.showSearchInput} authenticate={this.authenticate} searchValue={null} />} />
-                                <Route path="/" exact={true} render={() => <Login showSearchInput={this.showSearchInput} authenticate={this.authenticate} searchValue={null} />} />
-                              </Switch>
+                        }
+                      </div>
+                    </main>
 
-                            )
-                          }
-                        </div>
-                      </main>
-
-                    </div>
 
                   </div>
                 </div>
